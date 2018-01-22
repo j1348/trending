@@ -12,7 +12,11 @@ module.exports = {
     compress: true,
     port: 9000,
   },
-  plugins: [new HtmlWebpackPlugin({ template: resolve(__dirname, 'public', 'index.html') })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, 'public', 'index.html'),
+    }),
+  ],
   module: {
     rules: [
       {
@@ -25,6 +29,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['svg-sprite-loader'],
       },
     ],
   },

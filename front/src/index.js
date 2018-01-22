@@ -1,11 +1,12 @@
-import css from 'tachyons/css/tachyons.css';
+import 'tachyons/css/tachyons.css';
+import '../public/img/edit-cursor.svg';
 
 import axios from 'axios';
 function trending() {
     return axios.get('http://127.0.0.1:3000/trending');
 };
 
-import { Card } from './Card';
+import { Cards } from './Cards';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
@@ -19,14 +20,14 @@ class App extends React.Component {
         this.setState({});
 
         trending().then(({ data }) => {
-            this.setState({ card: data[0] });
+            this.setState({ cards: data });
         });
     }
     render() {
-        if (!this.state.card) {
+        if (!this.state.cards) {
             return null;
         }
-        return <Card {...this.state.card} />;
+        return <Cards cards={this.state.cards} />;
     }
 }
 

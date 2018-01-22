@@ -21,6 +21,9 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "style-loader": "^0.19.1",
+    "svg-sprite-loader": "^3.6.2",
+    "svgo": "^1.0.3",
+    "svgo-loader": "^2.1.0",
     "tachyons": "^4.9.1",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.1"

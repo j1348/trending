@@ -11,10 +11,10 @@ export class Card extends Component {
               <div className="pa2 ph3-ns pb3-ns">
                 <div className="dt w-100 mt1">
                   <div className="dtc">
-                    <h1 className="f5 f4-ns mv0">{this.props.name}</h1>
+                    <h1 className="f5 f4-ns mv0"><a target="_blank" href={this.props.href}>{this.props.name}</a></h1>
                   </div>
                   <div className="dtc tr">
-                    <h2 className="f5 mv0">$1,000</h2>
+                    <h2 className="f5 mv0">{this.props.language}</h2>
                   </div>
                 </div>
                 <p className="f6 lh-copy measure mt2 mid-gray">
