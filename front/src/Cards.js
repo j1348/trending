@@ -7,6 +7,8 @@ export class Cards extends Component {
     console.log(props);
   }
   render() {
-    return <div>{this.props.cards.map(card => <Card {...card} />)}</div>;
+    return <div class="cards">
+            {this.props.cards.map(card => <Card {...card} />)}
+        </div>;
   }
 }

@@ -1,0 +1,20 @@
+.cards {
+    margin: 2rem;
+}
+
+.card {
+    border: 1px solid $gray;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: $white;
+    box-shadow: 0 3px 3px $dark-gray;
+
+    &__title {
+        font-size: 1rem;
+
+        span {
+            float: right;
+            margin-left: 2rem;
+        }
+    }
+}

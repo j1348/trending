@@ -1,4 +1,5 @@
 import 'tachyons/css/tachyons.css';
+import '../css/index.scss';
 import '../public/img/edit-cursor.svg';
 
 import axios from 'axios';
