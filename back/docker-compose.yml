@@ -1,0 +1,25 @@
+version: "2.2"
+services:
+  mongodb:
+    image: mongo:3.6
+    container_name: "mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/data/db
+    ports:
+        - "127.0.0.1:27017:27017"
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+  crawler:
+    build: .
+    restart: always
+    container_name: "crawler-app"
+    environment:
+      - MONGO_URL=mongodb://mongodb/trending
+    ports:
+      - "3000:3000"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
