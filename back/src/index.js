@@ -29,16 +29,14 @@ function getRepoFromTrending({ repos, created }) {
 	});
 }
 
-function mergeTrendingWithRepo(r) {
-	console.log(r);
-
-	return Repo.find({ href: r.href })
+function mergeTrendingWithRepo({ href, ticks }) {
+	return Repo.find({ href })
 		.then(([repo]) => {
 			if (!repo) {
 				return new Repo(r).save();
 			}
 
-			var tmp = r.ticks.reduce((newTicks, tickToAdd) => {
+			var tmp = ticks.reduce((newTicks, tickToAdd) => {
 				if (
 					!repo.ticks.some(tick => {
 						return (
@@ -55,7 +53,7 @@ function mergeTrendingWithRepo(r) {
 
 			repo.ticks = repo.ticks.concat(tmp);
 			repo.ticks.sort((a, b) => {
-				return a.date.getTime() < b.date.getTime();
+				return a.date.getTime() - b.date.getTime();
 			});
 
 			return repo.save();
@@ -66,7 +64,8 @@ function mergeTrendingWithRepo(r) {
 }
 
 app.get('/repos', function(req, res) {
-	Repo.find({}, (err, repos) => {
+	console.log(req.query);
+	Repo.find(req.query || {}, (err, repos) => {
 		if (err) {
 			console.error(err);
 			return;
@@ -83,6 +82,7 @@ function getMinDate() {
 }
 
 app.get('/merge', function(req, res) {
+	const startTime = new Date();
 	Trending.find({ created: { $gte: getMinDate() } })
 		.then(trendings => {
 			async.eachSeries(
@@ -101,7 +101,8 @@ app.get('/merge', function(req, res) {
 					);
 				},
 				function(err) {
-					res.send({ msg: 'finished' });
+					const delay = (new Date().getTime() - startTime.getTime()) / 1000;
+					res.send({ msg: `processed in ${delay}s` });
 				}
 			);
 		})
@@ -111,6 +112,6 @@ app.get('/merge', function(req, res) {
 		});
 });
 
-app.listen(3000, function() {
-	console.log('Example app listening on port 3000!');
+app.listen(process.env.PORT || 3000, function() {
+	console.log(`listening on port ${process.env.PORT || 3000}`);
 });
