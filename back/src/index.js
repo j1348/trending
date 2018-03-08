@@ -66,7 +66,7 @@ function mergeTrendingWithRepo(r) {
 }
 
 app.get('/repos', function(req, res) {
-	Repo.find({ language: 'HTML' }, (err, repos) => {
+	Repo.find({}, (err, repos) => {
 		if (err) {
 			console.error(err);
 			return;
