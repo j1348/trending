@@ -29,14 +29,14 @@ function getRepoFromTrending({ repos, created }) {
 	});
 }
 
-function mergeTrendingWithRepo({ href, ticks }) {
-	return Repo.find({ href })
+function mergeTrendingWithRepo(r) {
+	return Repo.find({ href: r.href })
 		.then(([repo]) => {
 			if (!repo) {
 				return new Repo(r).save();
 			}
 
-			var tmp = ticks.reduce((newTicks, tickToAdd) => {
+			var tmp = r.ticks.reduce((newTicks, tickToAdd) => {
 				if (
 					!repo.ticks.some(tick => {
 						return (
@@ -83,7 +83,7 @@ function getMinDate() {
 
 app.get('/merge', function(req, res) {
 	const startTime = new Date();
-	Trending.find({ created: { $gte: getMinDate() } })
+	Trending.find({})
 		.then(trendings => {
 			async.eachSeries(
 				trendings,
@@ -105,6 +105,18 @@ app.get('/merge', function(req, res) {
 					res.send({ msg: `processed in ${delay}s` });
 				}
 			);
+		})
+		.catch(err => {
+			console.error(err);
+			res.send({ err });
+		});
+});
+
+app.get('/trending', function(req, res) {
+	const startTime = new Date();
+	Trending.find({})
+		.then(trendings => {
+			res.send({ trendings: trendings.slice(Math.max(trendings.length - 10, 1)) });
 		})
 		.catch(err => {
 			console.error(err);
