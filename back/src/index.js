@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const moment = require('moment');
 const db = require('./db');
 const bodyParser = require('body-parser');
 
@@ -16,16 +17,29 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.get('/repos', function(req, res) {
-	Repo.find(req.query || {}, (err, repos) => {
-		if (err) {
-			console.error(err);
-			return;
-		}
+// db.repos.find({ 'ticks.date': { $gte: new Date(2018, 2, 20) }  });
 
-		res.setHeader('Cache-Control', 'public, max-age=5000');
-		res.send({ repos });
-	});
+app.get('/repos', function(req, res) {
+	const yesterday = moment()
+		.subtract(1, 'day')
+		.toDate();
+
+	Repo.find(
+		{
+			'ticks.date': {
+				$gte: yesterday,
+			},
+		},
+		(err, repos) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+
+			res.setHeader('Cache-Control', 'public, max-age=5000');
+			res.send({ repos });
+		}
+	);
 });
 
 app.get('/importer', function(req, res) {
