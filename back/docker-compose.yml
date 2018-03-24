@@ -1,8 +1,8 @@
 version: "2.2"
 services:
-  mongodb:
+  trending-db:
     image: mongo:3.6
-    container_name: "mongodb"
+    container_name: "trending-db"
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -11,15 +11,15 @@ services:
     ports:
         - "127.0.0.1:27017:27017"
     command: mongod --smallfiles --logpath=/dev/null # --quiet
-  crawler:
+  trending-crawler:
     build: .
     restart: always
-    container_name: "crawler-app"
+    container_name: "trending-crawler"
     environment:
-      - MONGO_URL=mongodb://mongodb/trending
+      - MONGO_URL=trending-db://mongodb/trending
     ports:
       - "3000:3000"
     links:
-      - mongodb
+      - trending-db
     depends_on:
-      - mongodb
+      - trending-db
