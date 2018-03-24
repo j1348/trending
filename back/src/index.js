@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
+const bodyParser = require('body-parser');
 const omit = require('lodash.omit');
 const async = require('async');
 
@@ -8,6 +9,8 @@ const Trending = require('./trending');
 const Repo = require('./repo');
 
 const crawler = require('./crawler');
+
+app.use(bodyParser.json()); // for parsing application/json
 
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -33,6 +36,7 @@ function mergeTrendingWithRepo(r) {
 	return Repo.find({ href: r.href })
 		.then(([repo]) => {
 			if (!repo) {
+				console.log(`create new repo ${r.href}`);
 				return new Repo(r).save();
 			}
 
@@ -56,6 +60,7 @@ function mergeTrendingWithRepo(r) {
 				return a.date.getTime() - b.date.getTime();
 			});
 
+			console.log(`update repo ${r.href}`);
 			return repo.save();
 		})
 		.catch(err => {
@@ -71,23 +76,39 @@ app.get('/repos', function(req, res) {
 			return;
 		}
 
-		res.setHeader('Cache-Control', 'public, max-age=60000');
+		res.setHeader('Cache-Control', 'public, max-age=5000');
 		res.send({ repos });
 	});
 });
 
-function getMinDate() {
-	const today = new Date();
-	return new Date(Date.UTC(2018, today.getMonth() - 1, today.getDay()));
+// function getMinDate() {
+// 	const today = new Date();
+// 	return new Date(Date.UTC(2018, today.getMonth() - 1, today.getDay()));
+// }
+
+function removeTrendings(idsToRemove) {
+	return Trending.remove({ _id: { $in: idsToRemove } });
 }
 
-app.get('/merge', function(req, res) {
+app.get('/import', function(req, res) {
+	const { n: toProcessed } = req.query;
 	const startTime = new Date();
 	Trending.find({})
 		.then(trendings => {
+			console.log(trendings.length);
+			const partialTrendings = trendings.slice(
+				0,
+				Math.min(trendings.length, toProcessed || 10)
+			);
+			console.log(partialTrendings.length);
+
+			const idsToRemove = [];
+
 			async.eachSeries(
-				trendings,
+				partialTrendings,
 				function(trending, cb) {
+					const { id } = trending;
+					idsToRemove.push(id);
 					async.eachSeries(
 						getRepoFromTrending(trending),
 						function(repo, cb2) {
@@ -96,13 +117,28 @@ app.get('/merge', function(req, res) {
 							});
 						},
 						function(err) {
-							cb(null, {});
+							cb(err, {});
 						}
 					);
 				},
 				function(err) {
-					const delay = (new Date().getTime() - startTime.getTime()) / 1000;
-					res.send({ msg: `processed in ${delay}s` });
+					if (err) {
+						res.status(500).json({ err });
+						return;
+					}
+
+					removeTrendings(idsToRemove)
+						.then(() => {
+							const delay = (new Date().getTime() - startTime.getTime()) / 1000;
+							res.send({
+								total: trendings.length,
+								processed: partialTrendings.length,
+								msg: `processed in ${delay}s`,
+							});
+						})
+						.catch(err => {
+							res.status(500).json({ err });
+						});
 				}
 			);
 		})
