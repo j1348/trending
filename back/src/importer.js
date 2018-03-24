@@ -110,7 +110,7 @@ function importer(toProcessed = 10) {
 }
 
 module.exports = new CronJob({
-	cronTime: '* * * * *',
+	cronTime: '*/2 * * * *',
 	onTick: importer,
 	start: true,
 	timeZone: 'Europe/Paris',
