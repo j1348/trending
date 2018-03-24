@@ -12,11 +12,23 @@ services:
         - "127.0.0.1:27017:27017"
     command: mongod --smallfiles --logpath=/dev/null # --quiet
   trending-crawler:
-    build: .
+    build: crawler
     restart: always
     container_name: "trending-crawler"
     environment:
-      - MONGO_URL=trending-db://mongodb/trending
+      - MONGO_URL=mongodb://trending-db/trending
+    ports:
+      - "3001:3001"
+    links:
+      - trending-db
+    depends_on:
+      - trending-db
+  trending-repo:
+    build: .
+    restart: always
+    container_name: "trending-repo"
+    environment:
+      - MONGO_URL=mongodb://trending-db/trending
     ports:
       - "3000:3000"
     links:
