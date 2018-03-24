@@ -30,6 +30,7 @@ app.get('/repos', function(req, res) {
 				$gte: yesterday,
 			},
 		},
+		'-ticks',
 		(err, repos) => {
 			if (err) {
 				console.error(err);
