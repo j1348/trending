@@ -31,6 +31,12 @@ app.get('/repos', function(req, res) {
 			},
 		},
 		'-ticks',
+        {
+            sort:{
+                updatedAt: -1,
+                createdAt: -1
+            }
+        },
 		(err, repos) => {
 			if (err) {
 				console.error(err);
