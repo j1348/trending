@@ -49,6 +49,36 @@ app.get('/repos', function(req, res) {
 	);
 });
 
+app.get('/fullrepos', function(req, res) {
+    const yesterday = moment()
+        .subtract(1, 'day')
+        .toDate();
+
+    Repo.find(
+        {
+            'ticks.date': {
+                $gte: yesterday,
+            },
+        },
+        '',
+        {
+            sort:{
+                updatedAt: -1,
+                createdAt: -1
+            }
+        },
+        (err, repos) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            res.setHeader('Cache-Control', 'public, max-age=5000');
+            res.send({ repos });
+        }
+    );
+});
+
 app.get('/importer', function(req, res) {
 	res.send({ running: importer.running });
 });
