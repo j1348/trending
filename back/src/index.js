@@ -8,6 +8,7 @@ const importer = require('./importer');
 
 const Trending = require('./trending');
 const Repo = require('./repo');
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json()); // for parsing application/json
 
@@ -83,6 +84,6 @@ app.get('/importer', function(req, res) {
 	res.send({ running: importer.running });
 });
 
-app.listen(process.env.PORT || 3000, function() {
-	console.log(`listening on port ${process.env.PORT || 3000}`);
+app.listen(port, function() {
+	console.log(`listening on port ${port}`);
 });
