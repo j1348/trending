@@ -51,14 +51,14 @@ app.get('/repos', function(req, res) {
 });
 
 app.get('/fullrepos', function(req, res) {
-    const yesterday = moment()
-        .subtract(1, 'day')
-        .toDate();
+    const { hour } = req.query;
 
     Repo.find(
         {
             'ticks.date': {
-                $gte: yesterday,
+                $gte: moment()
+                    .subtract(hour || 24, 'hour')
+                    .toDate(),
             },
         },
         '',
@@ -94,6 +94,25 @@ app.get('/fullrepos', function(req, res) {
 
             res.setHeader('Cache-Control', 'public, max-age=5000');
             res.send({ repos: newRepos });
+        }
+    );
+});
+
+app.get('/repos/:id', function(req, res) {
+    const { id } = req.params;
+
+    Repo.findOne(
+        {
+            _id: id
+        },
+        (err, repos) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            res.setHeader('Cache-Control', 'public, max-age=5000');
+            res.send({ repos });
         }
     );
 });
