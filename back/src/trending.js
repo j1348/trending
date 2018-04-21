@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const trendingSchema = mongoose.Schema({
-	created: {
+    created: {
         type: Date,
         default: Date.now,
     },
