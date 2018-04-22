@@ -1,12 +1,12 @@
-FROM mhart/alpine-node:8.11
+FROM node:8.11.1-alpine
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /code
+WORKDIR /code
+ADD . /code
 
-COPY package.json /usr/src/app
-COPY yarn.lock /usr/src/app
-RUN yarn --production
 
-COPY . /usr/src/app
+RUN yarn --no-optional && \
+    yarn run build && \
+    yarn cache clean
+CMD [ "yarn", "start" ]
 EXPOSE 3000
-CMD ["node", "src/index.js"]

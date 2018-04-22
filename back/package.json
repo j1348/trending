@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "build-server": "node_modules/babel-cli/bin/babel.js src -d build src -s --presets es2015",
+    "clean": "rm -rf build && mkdir build",
+    "build": "npm run clean && npm run build-server",
+    "start": "node ./build/index.js",
     "dev": "PORT=4000 nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --single-quote --write --tab-width 4 --print-width 80 --trailing-comma all --write 'src/**/*.js'"
@@ -13,14 +16,20 @@
   "author": "me@jfroffice.me",
   "license": "MIT",
   "dependencies": {
+    "apollo-server-express": "^1.3.5",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
     "cors": "^2.8.4",
     "cron": "^1.3.0",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.24.0",
     "graphql-type-json": "^0.2.1",
     "lodash": "^4.17.5",
     "lodash.omit": "^4.5.0",
     "memoizee": "^0.4.11",
-    "mongoose": "^5.0.8",
+    "mongoose": "^5.0.15",
     "trending-github": "^1.0.2"
   }
 }
