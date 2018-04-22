@@ -4,7 +4,7 @@ import '../public/img/edit-cursor.svg';
 
 import axios from 'axios';
 function trending() {
-    return axios.get('http://127.0.0.1:3000/trending');
+    return axios.get('http://127.0.0.1:4000/repos');
 };
 
 import { Cards } from './Cards';
@@ -21,7 +21,8 @@ class App extends React.Component {
         this.setState({});
 
         trending().then(({ data }) => {
-            this.setState({ cards: data });
+            console.log(data);
+            this.setState({ cards: data.repos });
         });
     }
     render() {
