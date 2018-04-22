@@ -1,3 +1,4 @@
 bin
 front/dist
 back/data
+fix-commit.sh
