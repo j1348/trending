@@ -15,7 +15,7 @@ function updateTrending() {
 }
 
 module.exports = new CronJob({
-	cronTime: '0 * * * *',
+	cronTime: '*/2 * * * *',
 	onTick: updateTrending,
 	start: true,
 	timeZone: 'Europe/Paris',
