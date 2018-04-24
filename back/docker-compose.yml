@@ -13,7 +13,7 @@ services:
     command: mongod --smallfiles --logpath=/dev/null # --quiet
   trending-crawler:
     build: crawler
-    restart: always
+    restart: unless-stopped
     container_name: "trending-crawler"
     environment:
       - MONGO_URL=mongodb://trending-db/trending
@@ -25,7 +25,7 @@ services:
       - trending-db
   trending-repo:
     build: .
-    restart: always
+    restart: unless-stopped
     container_name: "trending-repo"
     environment:
       - MONGO_URL=mongodb://trending-db/trending

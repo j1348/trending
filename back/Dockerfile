@@ -4,8 +4,7 @@ RUN mkdir -p /code
 WORKDIR /code
 ADD . /code
 
-
-RUN yarn --no-optional && \
+RUN yarn --production --ignore-optional && \
     yarn run build && \
     yarn cache clean
 CMD [ "yarn", "start" ]
