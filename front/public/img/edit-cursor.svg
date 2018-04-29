@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs></defs>
-    <g id="edit-cursor" stroke="none" fill="#000000" opacity="0.38">
-        <polygon id="Fill-1" points="12.79968 -0.000426666667 11.7330133 1.06730667 13.8663467 3.20064 14.93408 2.13397333"></polygon>
-        <polygon id="Fill-2" points="2.66666667 10.1333333 4.8 12.2666667 12.2666667 4.8 10.1333333 2.66666667"></polygon>
-        <polygon id="Fill-3" points="0 14.9333333 4.26666667 12.8 2.13333333 10.6666667"></polygon>
-    </g>
-</svg>
