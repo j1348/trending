@@ -16,7 +16,7 @@
   "author": "me@jfroffice.me",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^1.3.5",
+    "apollo-server-express": "^1.3.6",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -26,7 +26,7 @@
     "graphql": "^0.13.2",
     "graphql-tools": "^2.24.0",
     "graphql-type-json": "^0.2.1",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "lodash.omit": "^4.5.0",
     "memoizee": "^0.4.11",
     "mongoose": "^5.0.15",
