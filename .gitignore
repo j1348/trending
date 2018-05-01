@@ -1,5 +1,4 @@
 bin
-front/dist
-back/data
+data
 fix-commit.sh
 yarn-error.log
