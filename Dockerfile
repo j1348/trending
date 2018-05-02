@@ -1,4 +1,4 @@
-FROM node:8.11.1-alpine
+FROM keymetrics/pm2:8-alpine
 
 RUN mkdir -p /code
 WORKDIR /code
@@ -7,5 +7,7 @@ ADD . /code
 RUN yarn --production --ignore-optional && \
     yarn run build && \
     yarn cache clean
-CMD [ "yarn", "start" ]
+
+CMD [ "pm2-runtime", "process.yml" ]
+
 EXPOSE 3000
