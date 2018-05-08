@@ -1,13 +1,10 @@
-import { getRepos, getRepo } from './repo';
+import { getRepos, getRepo, getReposFilter } from './repo';
 
 export default {
     Query: {
-        getRepos: (_, __, context) => {
-            return getRepos();
-        },
-        getRepo: (_, { id }, context) => {
-            return getRepo(id);
-        },
+        getRepos: (_, __, context) => getRepos(),
+        getReposFilter: (_, { filter }, context) => getReposFilter(filter),
+        getRepo: (_, { id }, context) => getRepo(id),
     },
     Repo: {
         Ticks: ({ ticks }, _, context) => {

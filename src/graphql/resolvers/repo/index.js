@@ -1,1 +1,1 @@
-export { getRepos, getRepo } from '../../../models/repo';
+export { getRepos, getReposFilter, getRepo } from '../../../models/repo';

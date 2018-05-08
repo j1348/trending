@@ -22,6 +22,26 @@ export function getRepos(hour) {
     ).then(mapValues);
 }
 
+export function getReposFilter(filter) {
+    const query = {
+            ...filter,
+            'ticks.date': {
+                $gte: moment()
+                    .subtract(24, 'hour')
+                    .toDate(),
+            }
+        };
+
+    return Repo.find(
+        query,
+        '',
+        {
+            sort,
+        },
+    ).then(mapValues);
+}
+
+
 export function getRepo(id) {
     return Repo.findOne({ _id: id }).then(repo => mapValues([repo])[0]);
 }

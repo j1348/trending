@@ -26,6 +26,7 @@ export default `
 
     type Query {
         getRepos: [Repo]
+        getReposFilter(filter: JSON!): [Repo]
         getRepo(id: ID!): Repo
     }
 
