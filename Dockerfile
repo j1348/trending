@@ -5,12 +5,11 @@ WORKDIR /code
 
 ADD ./package.json ./yarn.lock /code/
 
-RUN yarn --production --ignore-optional
+RUN yarn --production --pure-lockfile --ignore-optional
 
 ADD . /code
 
-RUN yarn run build && \
-    yarn cache clean
+RUN yarn build && yarn cache clean
 
 CMD [ "pm2-runtime", "process.yml" ]
 
