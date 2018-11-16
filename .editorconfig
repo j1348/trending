@@ -1,0 +1,21 @@
+[*]
+indent_style = space
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.json]
+indent_style = space
+indent_size = 2
+
+[{*.js,*.css}]
+indent_style = space
+indent_size = 4
+block_comment_start = /**
+block_comment = *
+block_comment_end = */
+
+[{*.scss,*.html,*.ejs,*.sh,*.bash,*.hbs}]
+indent_style = space
+indent_size = 4
