@@ -15,7 +15,7 @@ export default `
         author: String!
         name: String!
         language: String!
-        description: String!
+        description: String
         href: String!
         Ticks: [Tick]
         stars: Int!
