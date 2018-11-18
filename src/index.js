@@ -1,14 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 const app = express();
-const moment = require('moment');
-const db = require('./db');
+require('./db');
 const bodyParser = require('body-parser');
 
 const importer = require('./importer');
 
-const Trending = require('./trending');
-const Repo = require('./models/schema');
+require('./trending');
+require('./models/schema');
 const port = process.env.PORT || 3000;
 
 import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';

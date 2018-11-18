@@ -2,12 +2,12 @@ import { getRepos, getRepo, getReposFilter } from './repo';
 
 export default {
     Query: {
-        getRepos: (_, __, context) => getRepos(),
-        getReposFilter: (_, { filter }, context) => getReposFilter(filter),
-        getRepo: (_, { id }, context) => getRepo(id),
+        getRepos: () => getRepos(),
+        getReposFilter: (_, { filter }) => getReposFilter(filter),
+        getRepo: (_, { id }) => getRepo(id),
     },
     Repo: {
-        Ticks: ({ ticks }, _, context) => {
+        Ticks: ({ ticks }) => {
             return ticks.map(({ stars, forks, date }) => {
                 return {
                     stars,

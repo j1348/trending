@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import GraphQLJSON from 'graphql-type-json';
 
 export default `

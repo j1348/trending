@@ -1,5 +1,28 @@
 {
-   "extends": {
-    "prettier"
-   }
+    "parser": "babel-eslint",
+    "extends": [
+        "prettier",
+        "eslint:recommended",
+    ],
+    "plugins": ["prettier"],
+    "env": {
+        "node": true,
+        "es6" : true
+    },
+    "globals": {
+        "DEBUG": false
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true
+        }
+    },
+    "rules": {
+        "no-vars": "off",
+        "no-console": "off",
+        "block-scoped-var": "warn",
+        "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
+    }
 }

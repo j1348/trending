@@ -8,9 +8,11 @@
     "clean": "rm -rf build && mkdir build",
     "build": "npm run clean && npm run build-server",
     "start": "node ./build/index.js",
-    "debug": "PORT=4000 babel-node --nolazy --inspect-brk=9229 src/index.js",
-    "dev": "PORT=4000 nodemon --exec babel-node src/index.js",
+    "debug": "babel-node --nolazy --inspect-brk=9229 src/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext=.js",
+    "lint:fix": "npm run lint -- --fix",
     "prettier": "prettier --single-quote --write --tab-width 4 --print-width 80 --trailing-comma all --write 'src/**/*.js'"
   },
   "keywords": [],
@@ -33,5 +35,11 @@
     "memoizee": "^0.4.11",
     "mongoose": "^5.0.15",
     "trending-github": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "8",
+    "eslint": "4.x",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0"
   }
 }
