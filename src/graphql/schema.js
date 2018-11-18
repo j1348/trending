@@ -1,7 +1,10 @@
+import { ApolloServer } from 'apollo-server-express';
 // eslint-disable-next-line no-unused-vars
 import GraphQLJSON from 'graphql-type-json';
 
-export default `
+import { gql } from 'apollo-server-express';
+
+export default gql`
     scalar JSON
     scalar Date
 
