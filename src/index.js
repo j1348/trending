@@ -18,12 +18,14 @@ const server = new ApolloServer({
     cors: true,
     typeDefs,
     resolvers,
-    debug: true,
     playground: {
         endpoint: `/graphql`,
         settings: {
             'editor.theme': 'light',
         },
+    },
+    engine: {
+        apiKey: 'service:j1348-7501:CK7BwZyJembEQyFOjj4FJA',
     },
 });
 
