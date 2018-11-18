@@ -92,7 +92,7 @@ function importer(toProcessed = 10) {
                         return;
                     }
 
-                    Trending.remove({ _id: { $in: idsToRemove } })
+                    Trending.deleteMany({ _id: { $in: idsToRemove } })
                         .then(() => {
                             const delay =
                                 (new Date().getTime() - startTime.getTime()) /

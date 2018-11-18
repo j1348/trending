@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/trending');
+mongoose.connect(
+    process.env.MONGO_URL || 'mongodb://localhost/trending',
+    { useCreateIndex: true, useNewUrlParser: true },
+);
 
 const db = mongoose.connection;
 
