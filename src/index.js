@@ -32,9 +32,6 @@ app.use((req, res, next) => {
     next();
 });
 
-import initRepo from './api/repo';
-initRepo(app);
-
 app.get('/importer', function(req, res) {
     res.send({ running: importer.running });
 });
