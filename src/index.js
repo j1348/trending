@@ -21,7 +21,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 app.use(bodyParser.json()); // for parsing application/json
 
-app.use('/graphql', cors(), graphqlExpress({ schema }));
+app.use('/graphql', cors(), graphqlExpress({ schema, cacheControl: true }));
 app.get('/docs', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 
 app.use((req, res, next) => {
