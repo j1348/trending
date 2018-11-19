@@ -3,6 +3,7 @@ services:
   trending-db:
     image: mongo:3.6
     container_name: trending-db
+    restart: unless-stopped
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
