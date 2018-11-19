@@ -30,6 +30,8 @@ ObjectId.prototype.valueOf = function() {
     return this.toString();
 };
 
+repoSchema.index({ 'ticks.date': 1 });
+
 const Repo = mongoose.model('Repo', repoSchema);
 
 module.exports = Repo;
