@@ -1,4 +1,16 @@
 .DS_Store
+.git
+back/.DS_Store
+back/crawler/node_modules
+back/crawler/data
+back/data/db
+back/yarn-error.log
+bin
+crawler
+README.md
+etc
 data
 node_modules
+trending.tar
+Dockerfile
 yarn-error.log
