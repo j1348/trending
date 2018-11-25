@@ -7,7 +7,7 @@ function getReposInternal(hour) {
     return Repo.find({
         'ticks.date': {
             $gte: moment()
-                .subtract(hour || 240, 'hour')
+                .subtract(hour || 24, 'hour')
                 .toDate(),
         },
     }).then(mapValues);
