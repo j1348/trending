@@ -24,9 +24,6 @@ const server = new ApolloServer({
             'editor.theme': 'light',
         },
     },
-    engine: {
-        apiKey: 'service:j1348-7501:CK7BwZyJembEQyFOjj4FJA',
-    },
 });
 
 // app.use('/graphql', cors()); // for parsing application/json
