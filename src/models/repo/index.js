@@ -7,19 +7,13 @@ const sort = {
 };
 
 export function getRepos(hour) {
-    return Repo.find(
-        {
-            'ticks.date': {
-                $gte: moment()
-                    .subtract(hour || 24, 'hour')
-                    .toDate(),
-            },
+    return Repo.find({
+        'ticks.date': {
+            $gte: moment()
+                .subtract(hour || 24, 'hour')
+                .toDate(),
         },
-        '',
-        {
-            sort,
-        },
-    ).then(mapValues);
+    }).then(mapValues);
 }
 
 export function getReposFilter(filter) {
@@ -64,7 +58,7 @@ function mapValues(repos) {
                 language,
                 createdAt,
                 updatedAt,
-                ticks,
+                ticks: ticks.slice(Math.max(ticks.length - 40, 0)),
                 stars,
                 forks,
             };
