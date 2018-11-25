@@ -1,15 +1,28 @@
 import moment from 'moment';
+import pMemoize from 'p-memoize';
+
 import Repo from '../schema';
 
-export function getRepos(hour) {
+function getReposInternal(hour) {
     return Repo.find({
         'ticks.date': {
             $gte: moment()
-                .subtract(hour || 24, 'hour')
+                .subtract(hour || 240, 'hour')
                 .toDate(),
         },
     }).then(mapValues);
 }
+
+const memGetRepos = pMemoize(getReposInternal, { maxAge: 300000 });
+
+export function getRepos(hour) {
+    return memGetRepos(hour);
+}
+
+setInterval(function() {
+    console.log('refreshing cache..');
+    memGetRepos(24);
+}, 60000);
 
 export function getReposFilter(filter) {
     const query = {
