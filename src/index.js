@@ -3,6 +3,7 @@ import express from 'express';
 const app = express();
 require('./db');
 
+const compression = require('compression');
 const importer = require('./importer');
 
 require('./trending');
@@ -29,7 +30,7 @@ const server = new ApolloServer({
     },
 });
 
-// app.use('/graphql', cors()); // for parsing application/json
+app.use(compression());
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
