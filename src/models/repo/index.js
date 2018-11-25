@@ -1,11 +1,6 @@
 import moment from 'moment';
 import Repo from '../schema';
 
-const sort = {
-    updatedAt: -1,
-    createdAt: -1,
-};
-
 export function getRepos(hour) {
     return Repo.find({
         'ticks.date': {
@@ -26,9 +21,7 @@ export function getReposFilter(filter) {
         },
     };
 
-    return Repo.find(query, '', {
-        sort,
-    }).then(mapValues);
+    return Repo.find(query).then(mapValues);
 }
 
 export function getRepo(id) {
