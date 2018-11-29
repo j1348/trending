@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line no-unused-vars
 import GraphQLJSON from 'graphql-type-json';
 
@@ -20,6 +19,7 @@ export default gql`
         name: String!
         language: String!
         description: String
+        starsByDay: Int
         href: String!
         Ticks: [Tick]
         stars: Int!
