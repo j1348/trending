@@ -7,7 +7,7 @@ const compression = require('compression');
 const importer = require('./importer');
 
 require('./trending');
-require('./models/schema');
+require('./graphql/resolvers/repo/model');
 const port = process.env.PORT || 3000;
 
 import typeDefs from './graphql/schema';

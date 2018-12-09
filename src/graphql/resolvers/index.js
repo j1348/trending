@@ -2,6 +2,7 @@ import { getRepos, getRepo, getReposFilter } from './repo';
 
 export default {
     Query: {
+        // getStarsByDay,
         getRepos,
         getReposFilter: (_, { filter }) => getReposFilter(filter),
         getRepo: (_, { id }) => getRepo(id),
