@@ -3,7 +3,7 @@ const async = require('async');
 const omit = require('lodash.omit');
 
 const Trending = require('./trending');
-const Repo = require('./models/schema');
+const Repo = require('./graphql/resolvers/repo/model');
 
 function getRepoFromTrending({ repos, created }) {
     return repos.map(repo => {
