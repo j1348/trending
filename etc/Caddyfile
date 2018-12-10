@@ -1,0 +1,4 @@
+trends2.abortime.com {
+  cache
+  proxy / localhost:3000
+}
