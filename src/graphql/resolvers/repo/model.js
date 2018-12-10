@@ -42,7 +42,7 @@ function map() {
 }
 
 function reduce(id, ticks) {
-    if (!ticks.length) {
+    if (ticks.length < 2) {
         return 0;
     }
 
