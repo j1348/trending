@@ -1,5 +1,6 @@
 bin/go.sh
 trending.tar
 data
+dive.log
 fix-commit.sh
 yarn-error.log

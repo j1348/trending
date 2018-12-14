@@ -19,9 +19,6 @@ const server = new ApolloServer({
     cors: true,
     typeDefs,
     resolvers,
-    cacheControl: {
-        defaultMaxAge: 240,
-    },
     playground: {
         endpoint: `/graphql`,
         settings: {
