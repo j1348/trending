@@ -1,9 +1,8 @@
-import { getRepo, getRepos, getReposFast, getReposFilter } from './repo';
+import { getRepo, getReposFast, getReposFilter } from './repo';
 
 export default {
     Query: {
-        getRepos,
-        getReposFast,
+        getRepos: getReposFast,
         getReposFilter: (_, { filter }) => getReposFilter(filter),
         getRepo: (_, { id }) => getRepo(id),
     },
