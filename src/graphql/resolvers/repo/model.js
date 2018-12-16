@@ -1,3 +1,4 @@
+import moment from 'moment';
 import mongoose from 'mongoose';
 
 const repoSchema = mongoose.Schema(
@@ -34,10 +35,22 @@ repoSchema.index({ 'ticks.date': 1 });
 
 const Repo = mongoose.model('Repo', repoSchema);
 
+const reporefSchema = mongoose.Schema({
+    starsByDay: Number,
+});
+
+const Reporef = mongoose.model('Reporef', reporefSchema);
+
 function map() {
     var lastTicks = this.ticks.slice(Math.max(this.ticks.length - 40, 0));
     for (var i = 0; i < lastTicks.length; i++) {
-        emit(this.name, lastTicks[i]);
+        const t = lastTicks[i];
+        t.name = this.name;
+        t.id = this._id;
+        t.href = this.href;
+        t.language = this.language;
+        // eslint-disable-next-line no-undef
+        emit(this._id, t);
     }
 }
 
@@ -46,9 +59,10 @@ function reduce(id, ticks) {
         return 0;
     }
 
-    var minStars = ticks[0].stars;
+    var tick = ticks[0];
+    var minStars = tick.stars;
     var maxStars = minStars;
-    var minDate = ticks[0].date;
+    var minDate = tick.date;
     var maxDate = ticks[ticks.length - 1].date;
     var tmp = minStars;
 
@@ -61,21 +75,37 @@ function reduce(id, ticks) {
         }
     }
 
-    return Math.round(
-        (24 * 1000 * 3600 * (maxStars - minStars)) / (maxDate - minDate),
-    );
+    return {
+        date: maxDate,
+        stars: maxStars,
+        starsByDay: Math.round(
+            (24 * 1000 * 3600 * (maxStars - minStars)) / (maxDate - minDate),
+        ),
+    };
 }
 
 Repo.mapReduce(
     {
         map: map.toString(),
         reduce: reduce.toString(),
-        out: { replace: 'starsByDay' },
+        query: {
+            'ticks.date': {
+                $gte: moment()
+                    .subtract(24, 'hour')
+                    .toDate(),
+            },
+        },
+        out: { replace: 'reporefs', inline: 1 },
     },
     (err, results) => {
-        console.log(err);
-        console.log(results);
+        if (err) {
+            console.log(err);
+        }
+        // console.log(results);
     },
 );
 
-module.exports = Repo;
+module.exports = {
+    Repo,
+    Reporef,
+};

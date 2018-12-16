@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import GraphQLJSON from 'graphql-type-json';
-
 import { gql } from 'apollo-server-express';
 
 export default gql`

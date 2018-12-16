@@ -1,10 +1,10 @@
-import moment from 'moment';
-import pMemoize from 'p-memoize';
-import minBy from 'lodash/minBy';
-import maxBy from 'lodash/maxBy';
-import Repo from './model';
+import { Repo, Reporef } from './model';
 
 import dayjs from 'dayjs';
+import maxBy from 'lodash/maxBy';
+import minBy from 'lodash/minBy';
+import moment from 'moment';
+import pMemoize from 'p-memoize';
 
 function getReposInternal(hour) {
     return Repo.find({
@@ -44,6 +44,13 @@ export function getRepo(id) {
     return Repo.findOne({ _id: id }).then(repo => mapValues([repo])[0]);
 }
 
+export function getManyRepos(ids) {
+    return Repo.find(
+        { _id: { $in: ids } },
+        'author name href language description stars',
+    );
+}
+
 function starsByDay(ticks) {
     const minDate = ticks[0].date;
     const maxDate = ticks[ticks.length - 1].date;
@@ -58,6 +65,10 @@ function starsByDay(ticks) {
             dayjs(maxDate).diff(dayjs(minDate), 'minutes'),
         0,
     );
+}
+
+export function getRepoRefs() {
+    return Reporef.find({}).sort({ 'value.date': -1, 'value.starsByDay': -1 });
 }
 
 function mapValues(repos) {
