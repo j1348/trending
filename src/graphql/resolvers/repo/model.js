@@ -97,11 +97,10 @@ Repo.mapReduce(
         },
         out: { replace: 'reporefs', inline: 1 },
     },
-    (err, results) => {
+    (err) => {
         if (err) {
             console.log(err);
         }
-        // console.log(results);
     },
 );
 
