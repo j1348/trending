@@ -3,7 +3,7 @@ const async = require('async');
 const omit = require('lodash.omit');
 
 const Trending = require('./trending');
-const { Repo } = require('./graphql/resolvers/repo/model');
+const { Repo, reduceRepo } = require('./graphql/resolvers/repo/model');
 
 function getRepoFromTrending({ repos, created }) {
     return repos.map(repo => {
@@ -91,6 +91,8 @@ function importer(toProcessed = 10) {
                         console.error(err);
                         return;
                     }
+
+                    setTimeout(reduceRepo, 10000);
 
                     Trending.deleteMany({ _id: { $in: idsToRemove } })
                         .then(() => {

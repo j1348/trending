@@ -41,70 +41,76 @@ const reporefSchema = mongoose.Schema({
 
 const Reporef = mongoose.model('Reporef', reporefSchema);
 
-function map() {
-    var lastTicks = this.ticks.slice(Math.max(this.ticks.length - 40, 0));
-    for (var i = 0; i < lastTicks.length; i++) {
-        const t = lastTicks[i];
-        t.name = this.name;
-        t.id = this._id;
-        t.href = this.href;
-        t.language = this.language;
-        // eslint-disable-next-line no-undef
-        emit(this._id, t);
-    }
-}
+function reduceRepo() {
+    console.log('running reduceRepo');
 
-function reduce(id, ticks) {
-    if (ticks.length < 2) {
-        return 0;
-    }
-
-    var tick = ticks[0];
-    var minStars = tick.stars;
-    var maxStars = minStars;
-    var minDate = tick.date;
-    var maxDate = ticks[ticks.length - 1].date;
-    var tmp = minStars;
-
-    for (var i = 1; i < ticks.length; i++) {
-        tmp = ticks[i].stars;
-        if (tmp > maxStars) {
-            maxStars = tmp;
-        } else if (tmp < minStars) {
-            minStars = tmp;
+    function map() {
+        var lastTicks = this.ticks.slice(Math.max(this.ticks.length - 40, 0));
+        for (var i = 0; i < lastTicks.length; i++) {
+            const t = lastTicks[i];
+            t.name = this.name;
+            t.id = this._id;
+            t.href = this.href;
+            t.language = this.language;
+            // eslint-disable-next-line no-undef
+            emit(this._id, t);
         }
     }
 
-    return {
-        date: maxDate,
-        stars: maxStars,
-        starsByDay: Math.round(
-            (24 * 1000 * 3600 * (maxStars - minStars)) / (maxDate - minDate),
-        ),
-    };
-}
+    function reduce(id, ticks) {
+        if (ticks.length < 2) {
+            return 0;
+        }
 
-Repo.mapReduce(
-    {
-        map: map.toString(),
-        reduce: reduce.toString(),
-        query: {
-            'ticks.date': {
-                $gte: moment()
-                    .subtract(24, 'hour')
-                    .toDate(),
+        var tick = ticks[0];
+        var minStars = tick.stars;
+        var maxStars = minStars;
+        var minDate = tick.date;
+        var maxDate = ticks[ticks.length - 1].date;
+        var tmp = minStars;
+
+        for (var i = 1; i < ticks.length; i++) {
+            tmp = ticks[i].stars;
+            if (tmp > maxStars) {
+                maxStars = tmp;
+            } else if (tmp < minStars) {
+                minStars = tmp;
+            }
+        }
+
+        return {
+            date: maxDate,
+            stars: maxStars,
+            starsByDay: Math.round(
+                (24 * 1000 * 3600 * (maxStars - minStars)) /
+                    (maxDate - minDate),
+            ),
+        };
+    }
+
+    Repo.mapReduce(
+        {
+            map: map.toString(),
+            reduce: reduce.toString(),
+            query: {
+                'ticks.date': {
+                    $gte: moment()
+                        .subtract(24, 'hour')
+                        .toDate(),
+                },
             },
+            out: { replace: 'reporefs', inline: 1 },
         },
-        out: { replace: 'reporefs', inline: 1 },
-    },
-    (err) => {
-        if (err) {
-            console.log(err);
-        }
-    },
-);
+        err => {
+            if (err) {
+                console.log(err);
+            }
+        },
+    );
+}
 
 module.exports = {
     Repo,
     Reporef,
+    reduceRepo,
 };
