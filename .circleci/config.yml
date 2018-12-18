@@ -7,3 +7,23 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run: yarn && yarn lint
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh -p 4522 $SSH_USER@$SSH_HOST "cd trending && bin/update.sh"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
