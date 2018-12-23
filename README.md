@@ -22,6 +22,7 @@ Add the capability to pin a project for future scan (plan for the future)
 Build status of continus integration powered by CircleCI
 
 ![CircleCI badge](https://img.shields.io/circleci/project/github/j1348/trending/master.svg)
+[![Greenkeeper badge](https://badges.greenkeeper.io/j1348/trending.svg)](https://greenkeeper.io/)
 
 ## Framework used
 
