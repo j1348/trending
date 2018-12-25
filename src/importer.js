@@ -81,9 +81,7 @@ function importer(toProcessed = 10) {
                                 cb2(null, {});
                             });
                         },
-                        function(err) {
-                            cb(err, {});
-                        },
+                        cb,
                     );
                 },
                 function(err) {
@@ -125,3 +123,7 @@ module.exports = new CronJob({
     start: true,
     timeZone: 'Europe/Paris',
 });
+
+if (process.env.NODE_ENV !== 'production') {
+    setTimeout(reduceRepo, 3000);
+}

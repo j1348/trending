@@ -42,8 +42,7 @@ const reporefSchema = mongoose.Schema({
 const Reporef = mongoose.model('Reporef', reporefSchema);
 
 function reduceRepo() {
-    console.log('running reduceRepo');
-
+    console.time('reduceRepos');
     function map() {
         var lastTicks = this.ticks.slice(Math.max(this.ticks.length - 40, 0));
         for (var i = 0; i < lastTicks.length; i++) {
@@ -101,10 +100,13 @@ function reduceRepo() {
             },
             out: { replace: 'reporefs', inline: 1 },
         },
-        err => {
+        (err, result) => {
             if (err) {
                 console.log(err);
             }
+
+            console.timeEnd('reduceRepos');
+            console.log(result.stats);
         },
     );
 }

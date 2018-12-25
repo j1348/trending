@@ -23,25 +23,13 @@ export default gql`
         Ticks: [Tick]
         stars: Int!
         forks: Int!
+        date: Date
         createdAt: Date!
         updatedAt: Date!
     }
 
-    type RepoFast {
-        id: ID!
-        author: String!
-        name: String!
-        language: String!
-        description: String
-        starsByDay: Int
-        href: String!
-        stars: Int!
-    }
-
     type Query {
         getRepos: [Repo]
-        getReposFast: [RepoFast]
-        getReposFilter(filter: JSON!): [Repo]
         getRepo(id: ID!): Repo
     }
 

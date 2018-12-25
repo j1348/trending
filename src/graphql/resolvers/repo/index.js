@@ -8,7 +8,22 @@ export function getManyRepos(ids) {
 }
 
 export function getRepoRefs() {
-    return Reporef.find({}).sort({ 'value.date': -1, 'value.starsByDay': -1 });
+    return Reporef.find({});
+}
+
+export function getRepo(id) {
+    return Repo.find({ _id: id }).map(
+        ({ _id: id, name, author, language, href, description }) => {
+            return {
+                id,
+                name,
+                author,
+                language,
+                href,
+                description,
+            };
+        },
+    );
 }
 
 export function getReposFast() {
@@ -21,16 +36,16 @@ export function getReposFast() {
 
         return getManyRepos(ids).then(repos => {
             const newRepos = repos.map(
-                ({ _id: id, name, author, language, href, description }) => {
-                    const { stars, starsByDay, date } = metaInfo[id];
+                ({ _id: id, name, description, author, language, href }) => {
+                    const { date, stars, starsByDay } = metaInfo[id];
                     return {
                         id,
-                        date,
-                        author,
                         name,
                         description,
-                        href,
+                        author,
                         language,
+                        href,
+                        date,
                         stars,
                         starsByDay,
                     };
