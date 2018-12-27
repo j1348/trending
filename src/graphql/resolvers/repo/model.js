@@ -1,4 +1,3 @@
-import moment from 'moment';
 import mongoose from 'mongoose';
 
 const repoSchema = mongoose.Schema(
@@ -31,14 +30,13 @@ ObjectId.prototype.valueOf = function() {
     return this.toString();
 };
 
-repoSchema.index({ 'ticks.date': 1 });
+// repoSchema.index({ 'ticks.date': 1 });
 
 const Repo = mongoose.model('Repo', repoSchema);
 
 const reporefSchema = mongoose.Schema({
-    starsByDay: Number,
+    name: String,
 });
-
 const Reporef = mongoose.model('Reporef', reporefSchema);
 
 function reduceRepo() {
@@ -48,42 +46,69 @@ function reduceRepo() {
         for (var i = 0; i < lastTicks.length; i++) {
             const t = lastTicks[i];
             t.name = this.name;
-            t.id = this._id;
-            t.href = this.href;
-            t.language = this.language;
+            t.dates = t.date ? [t.date.toISOString().slice(0, 10)] : null;
+            //   t.id = this._id;
+            //   t.href = this.href;
+            //   t.language = this.language;
+
             // eslint-disable-next-line no-undef
             emit(this._id, t);
         }
     }
 
     function reduce(id, ticks) {
-        if (ticks.length < 2) {
-            return 0;
+        if (!ticks || ticks.length < 2) {
+            return null;
         }
 
-        var tick = ticks[0];
-        var minStars = tick.stars;
-        var maxStars = minStars;
-        var minDate = tick.date;
-        var maxDate = ticks[ticks.length - 1].date;
-        var tmp = minStars;
+        const maxIndex = ticks.length - 1;
+        const stars = ticks[maxIndex].stars;
+        const name = ticks[maxIndex].name; // only to be query
+        const speed = {};
+        const dates = [];
 
-        for (var i = 1; i < ticks.length; i++) {
-            tmp = ticks[i].stars;
-            if (tmp > maxStars) {
-                maxStars = tmp;
-            } else if (tmp < minStars) {
-                minStars = tmp;
+        const stringDate = ticks[maxIndex].date.toISOString();
+        const date = stringDate.slice(0, 10);
+
+        // if (ticks.length === 1) {
+        //     dates.push(date);
+        //     return {
+        //         name,
+        //         date,
+        //         dates,
+        //         ticks,
+        //         stars,
+        //         speed,
+        //     };
+        // }
+
+        for (var i = 0, ii = 1; i < maxIndex; i++, ii++) {
+            if (!ticks[ii].date) {
+                continue;
+            }
+            const stringDate = ticks[ii].date.toISOString();
+            const date = stringDate.slice(0, 10);
+            const hour = stringDate.slice(11, 16);
+            const time =
+                (new Date(ticks[ii].date).getTime() -
+                    new Date(ticks[i].date).getTime()) /
+                86400000; // 3600000 * 24);
+            speed[date] = speed[date] || {};
+            speed[date][hour] = Math.round(
+                (ticks[ii].stars - ticks[i].stars) / time,
+            );
+
+            if (dates.indexOf(date) === -1) {
+                dates.push(date);
             }
         }
 
         return {
-            date: maxDate,
-            stars: maxStars,
-            starsByDay: Math.round(
-                (24 * 1000 * 3600 * (maxStars - minStars)) /
-                    (maxDate - minDate),
-            ),
+            name,
+            date,
+            dates,
+            stars,
+            speed,
         };
     }
 
@@ -91,13 +116,6 @@ function reduceRepo() {
         {
             map: map.toString(),
             reduce: reduce.toString(),
-            query: {
-                'ticks.date': {
-                    $gte: moment()
-                        .subtract(24, 'hour')
-                        .toDate(),
-                },
-            },
             out: { replace: 'reporefs', inline: 1 },
         },
         (err, result) => {

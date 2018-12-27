@@ -18,18 +18,19 @@ export default gql`
         name: String!
         language: String!
         description: String
-        starsByDay: Int
         href: String!
-        Ticks: [Tick]
+        ticks: [Tick]
+        speed: JSON
         stars: Int!
         forks: Int!
         date: Date
+        dates: [Date]
         createdAt: Date!
         updatedAt: Date!
     }
 
     type Query {
-        getRepos: [Repo]
+        getRepos(name: String, at: String, from: String, to: String): [Repo]
         getRepo(id: ID!): Repo
     }
 

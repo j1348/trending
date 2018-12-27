@@ -125,5 +125,5 @@ module.exports = new CronJob({
 });
 
 if (process.env.NODE_ENV !== 'production') {
-    setTimeout(reduceRepo, 3000);
+    setTimeout(reduceRepo, 1000);
 }
