@@ -13,9 +13,9 @@
   "author": "me@jfroffice.me",
   "license": "MIT",
   "dependencies": {
-    "cron": "^1.3.0",
+    "cron": "^1.7.1",
     "express": "^4.16.2",
     "mongoose": "^5.0.8",
-    "trending-github": "^1.0.2"
+    "trending-github": "^1.1.16"
   }
 }

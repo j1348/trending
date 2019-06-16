@@ -88,9 +88,9 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
-cron@^1.3.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/cron/-/cron-1.5.0.tgz#50acb15ec640cff1f6f42091c9df2b81ed303066"
+cron@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/cron/-/cron-1.7.1.tgz#e85ee9df794d1bc6579896ee382053c3ce33778f"
   dependencies:
     moment-timezone "^0.5.x"
 
@@ -529,9 +529,9 @@ string_decoder@^1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-trending-github@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/trending-github/-/trending-github-1.1.0.tgz#3d950d48cb56d7646680b7e4fe7021a384739e25"
+trending-github@^1.1.16:
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/trending-github/-/trending-github-1.1.16.tgz#c7d796c8ee57574b7ffc93ddcb7587d0e479ce86"
   dependencies:
     axios "~0.18.0"
     cheerio "~1.0.0-rc.2"
