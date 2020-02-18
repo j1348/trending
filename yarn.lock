@@ -3569,9 +3569,10 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
 
-trending-github@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/trending-github/-/trending-github-1.1.0.tgz#3d950d48cb56d7646680b7e4fe7021a384739e25"
+trending-github@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/trending-github/-/trending-github-2.0.2.tgz#3aaa24c37a7b167c0f1ed1354f0e72d3f3e6796e"
+  integrity sha512-QqG6O60FO53CpqaTQdzdcDFqP4geoBYhI4K96HpQCnY8jB9+RXgURGk26Hu/Ri/UC8jfQH9bx6xFV9fvNRjg+Q==
   dependencies:
     axios "~0.18.0"
     cheerio "~1.0.0-rc.2"
