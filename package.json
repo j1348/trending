@@ -38,7 +38,7 @@
     "memoizee": "^0.4.14",
     "mongoose": "^5.4.0",
     "p-memoize": "^2.1.0",
-    "trending-github": "^1.1.0"
+    "trending-github": "^2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
