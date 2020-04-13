@@ -36,7 +36,7 @@
     "lodash": "^4.17.11",
     "lodash.omit": "^4.5.0",
     "memoizee": "^0.4.14",
-    "mongoose": "^5.4.0",
+    "mongoose": "^5.9.9",
     "p-memoize": "^2.1.0",
     "trending-github": "^1.1.0"
   },
