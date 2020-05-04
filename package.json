@@ -21,7 +21,7 @@
   "author": "me@jfroffice.me",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^2.3.1",
+    "apollo-server-express": "^2.13.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
